@@ -1,9 +1,7 @@
 package echoserver;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -38,7 +36,7 @@ public class EchoClient {
                 output.flush();
                 System.out.flush();
             }
-            
+
             input.close(); // Close the input
             socket.close(); // Close the socket when we're done reading from it
 
