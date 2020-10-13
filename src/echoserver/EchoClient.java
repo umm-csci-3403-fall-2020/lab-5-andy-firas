@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 
@@ -23,18 +24,23 @@ public class EchoClient {
             // Connect to the server
             Socket socket = new Socket(server, portNumber);
 
-            // Get the input stream so we can read from that socket
+            // Get the input stream
             InputStream input = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-            // Print all the input we receive from the server
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+            // Get the output stream
+            OutputStream output = socket.getOutputStream();
+
+            int byteInput;
+
+            while ((byteInput = System.in.read()) != -1) {
+                output.write(byteInput);
+                System.out.write(input.read());
+                output.flush();
+                System.out.flush();
             }
-
-            // Close the socket when we're done reading from it
-            socket.close();
+            
+            input.close(); // Close the input
+            socket.close(); // Close the socket when we're done reading from it
 
             // Provide some minimal error handling.
         } catch (ConnectException ce) {
